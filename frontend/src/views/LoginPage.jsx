@@ -1,7 +1,12 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Link, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
 import { loginUserSchemaValidator } from "../utlis/schemaValidator";
-import { Link } from "react-router-dom";
+import { loginMutation } from "../services/auth.service";
+import { useNotification } from "../hooks/useNotification";
+import { login } from "../store/slice/authSlice";
 
 export default function LoginPage() {
   const {
@@ -13,9 +18,29 @@ export default function LoginPage() {
     mode: "all",
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const { mutate, data, isPending, isSuccess, reset } = useMutation({
+    mutationKey: ["login-key"],
+    mutationFn: loginMutation,
+  });
+
+  const { notifySuccess, notifyError } = useNotification();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const onSubmit = (formData) => {
+    mutate(formData);
   };
+
+  if (data && data.success && data.statusCode === 200) {
+    notifySuccess(data.message);
+    dispatch(login({ user: data }));
+    navigate("/app");
+  }
+
+  if (data && data.success === false && data.statusCode === 401) {
+    notifyError(data.message);
+    reset();
+  }
 
   return (
     <section className="container mx-auto flex justify-center items-center">
@@ -58,9 +83,10 @@ export default function LoginPage() {
 
           <div className="flex justify-center items-center mb-4">
             <button
+              disabled={isPending || isSuccess}
               className="bg-[#FAFAFA] p-[6px] rounded-md border w-full"
               type="submit">
-              Login
+              {isPending ? "Sending" : isSuccess ? "Done" : "Login"}
             </button>
           </div>
 

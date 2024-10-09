@@ -16,7 +16,7 @@ export default function RegisterPage() {
     mode: "all",
   });
 
-  const { mutate, data, isPending, isSuccess } = useMutation({
+  const { mutate, data, isPending, isSuccess, reset } = useMutation({
     mutationKey: ["register-key"],
     mutationFn: registerMutation,
   });
@@ -35,6 +35,7 @@ export default function RegisterPage() {
 
   if (data && data.success === false && data.statusCode === 400) {
     notifyError(data.message);
+    reset();
   }
 
   return (
