@@ -7,6 +7,7 @@ import { loginUserSchemaValidator } from "../utlis/schemaValidator";
 import { loginMutation } from "../services/auth.service";
 import { useNotification } from "../hooks/useNotification";
 import { login } from "../store/slice/authSlice";
+import { addToLocalStorage } from "../utlis/localStorage";
 
 export default function LoginPage() {
   const {
@@ -34,6 +35,7 @@ export default function LoginPage() {
   if (data && data.success && data.statusCode === 200) {
     notifySuccess(data.message);
     dispatch(login({ user: data }));
+    addToLocalStorage("user", data);
     navigate("/app");
   }
 
