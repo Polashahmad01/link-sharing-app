@@ -1,7 +1,10 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerUserSchemaValidator } from "../utlis/schemaValidator";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { registerMutation } from "../services/auth.service";
+import { useNotification } from "../hooks/useNotification";
 
 export default function RegisterPage() {
   const {
@@ -13,9 +16,26 @@ export default function RegisterPage() {
     mode: "all",
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const { mutate, data, isPending, isSuccess } = useMutation({
+    mutationKey: ["register-key"],
+    mutationFn: registerMutation,
+  });
+
+  const { notifySuccess, notifyError } = useNotification();
+  const navigate = useNavigate();
+
+  const onSubmit = (formData) => {
+    mutate(formData);
   };
+
+  if (data && data.success && data.statusCode === 201) {
+    notifySuccess(data.message);
+    navigate("/auth/login");
+  }
+
+  if (data && data.success === false && data.statusCode === 400) {
+    notifyError(data.message);
+  }
 
   return (
     <section className="container mx-auto flex justify-center items-center">
@@ -107,8 +127,9 @@ export default function RegisterPage() {
           <div className="flex justify-center items-center mb-4">
             <button
               className="bg-[#FAFAFA] p-[6px] rounded-md border w-full"
+              disabled={isPending || isSuccess}
               type="submit">
-              Register
+              {isPending ? "Sending" : isSuccess ? "Done" : "Register"}
             </button>
           </div>
 
