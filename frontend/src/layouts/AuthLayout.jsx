@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-import AuthHeader from "../components/AuthHeader";
+import MainHeader from "../components/headers/MainHeader";
 
 export default function AuthLayout() {
   return (
-    <>
-      <AuthHeader />
+    <main className="bg-[#FAFAFA]">
+      <MainHeader />
       <Outlet />
-    </>
-  )
+    </main>
+  );
 }
