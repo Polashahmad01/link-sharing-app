@@ -5,5 +5,5 @@ export default function AppLayout() {
     <>
       <Outlet />
     </>
-  )
+  );
 }

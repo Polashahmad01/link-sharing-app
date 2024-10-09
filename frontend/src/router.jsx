@@ -1,34 +1,42 @@
 import { createBrowserRouter } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 import AuthLayout from "./layouts/AuthLayout";
+import HomePage from "./views/HomePage";
 import RegisterPage from "./views/RegisterPage";
 import LoginPage from "./views/LoginPage";
+import ErrorPage from "./views/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/app",
-    element: <h1>Main App Page</h1>,
-    errorElement: <p>Error from Main App Page</p>,
-    children: []
+    element: <ProtectedRoute />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+    ],
   },
   {
     path: "/auth",
     element: <AuthLayout />,
-    errorElement: <p>Error from Auth</p>,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/auth/register",
-        element: <RegisterPage />
+        element: <RegisterPage />,
       },
       {
         path: "/auth/login",
-        element: <LoginPage />
-      }
-    ]
+        element: <LoginPage />,
+      },
+    ],
   },
   {
     path: "*",
-    element: <h1>Main Error Page 404</h1>
-  }
+    element: <ErrorPage />,
+  },
 ]);
 
 export default router;
