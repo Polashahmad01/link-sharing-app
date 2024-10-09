@@ -27,6 +27,32 @@ const createUser = async (req, res, next) => {
   }
 }
 
+const loginUser = async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+      const error = new Error("Unable to proceed. The information you entered is not valid. Please review and correct your entries.");
+      error.statusCode = 422;
+      error.data = errors.array();
+      throw error;
+    }
+
+    const { email, password } = req.body;
+    const user = await User.findOne({ email: email });
+    if (!user || !(await user.matchPassword(password))) {
+      return res.status(401).json({ success: false, statusCode: 401, message: "Invalid email address or password." });
+    }
+
+    return res.status(200).json({ success: true, statusCode: 200, message: "User has been successfully logged in.", data: { _id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email } });
+  } catch (error) {
+    if(!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+}
+
 export default {
-  createUser
+  createUser,
+  loginUser
 }

@@ -31,12 +31,14 @@ userSchema.pre("save", async function(next) {
   }
 
   const salt = await bcryptjs.genSalt(10);
-  this.password = bcryptjs.hash(this.password, salt);
+  this.password = await bcryptjs.hash(this.password, salt);
   next();
 });
 
 // Compare password method
-
+userSchema.methods.matchPassword = async function(enteredPassword) {
+  return await bcryptjs.compare(enteredPassword, this.password);
+}
 
 const User = mongoose.model("User", userSchema);
 export default User;

@@ -9,6 +9,14 @@ const validateUserRegisterRoute = () => {
   ];
 }
 
+const validateUserLoginRoute = () => {
+  return [
+    body("email", "Invalid email address").trim().isEmail(),
+    body("password", "Password cannot be empty.").trim().notEmpty()
+  ];
+}
+
 export default {
-  validateUserRegisterRoute
+  validateUserRegisterRoute,
+  validateUserLoginRoute
 }
