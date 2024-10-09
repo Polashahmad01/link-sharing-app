@@ -11,3 +11,10 @@ export const registerUserSchemaValidator = Yup.object().shape({
     .required("Confirm password is required")
     .oneOf([Yup.ref("password"), null], "Passwords must match"),
 });
+
+export const loginUserSchemaValidator = Yup.object().shape({
+  email: Yup.string().required("Email is required").email("Email is invalid"),
+  password: Yup.string()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters"),
+});

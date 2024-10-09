@@ -1,8 +1,81 @@
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginUserSchemaValidator } from "../utlis/schemaValidator";
+import { Link } from "react-router-dom";
 
 export default function LoginPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginUserSchemaValidator),
+    mode: "all",
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
-    <>
-      <h1>Login Page</h1>
-    </>
-  )
+    <section className="container mx-auto flex justify-center items-center">
+      <div className="bg-white m-4 rounded-md p-6 w-10/12 sm:w-4/12 md:w-6/12 lg:w-5/12">
+        <h2 className="text-2xl font-semibold text-[#505050] mb-4">
+          Login to your account
+        </h2>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex flex-col mb-4">
+            <label htmlFor="email" className="mb-1">
+              Email
+            </label>
+            <input
+              className="bg-[#FAFAFA] p-[6px] rounded-md border"
+              type="email"
+              {...register("email")}
+            />
+            {errors.email && (
+              <p className="mt-1 text-red-700 text-sm">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col mb-4">
+            <label htmlFor="password" className="mb-1">
+              Password
+            </label>
+            <input
+              className="bg-[#FAFAFA] p-[6px] rounded-md border"
+              type="password"
+              {...register("password")}
+            />
+            {errors.password && (
+              <p className="mt-1 text-red-700 text-sm">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+
+          <div className="flex justify-center items-center mb-4">
+            <button
+              className="bg-[#FAFAFA] p-[6px] rounded-md border w-full"
+              type="submit">
+              Login
+            </button>
+          </div>
+
+          <div className="flex justify-center items-center">
+            <p className="text-center">
+              Already have an account?{" "}
+              <Link
+                to="/auth/register"
+                className="text-[#2D68FF] transition-all hover:text-[#505050]">
+                Register now
+              </Link>
+            </p>
+          </div>
+        </form>
+      </div>
+    </section>
+  );
 }
