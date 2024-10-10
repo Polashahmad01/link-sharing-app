@@ -2,10 +2,22 @@ import { Link } from "react-router-dom";
 import { FaStaylinked } from "react-icons/fa6";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
+import { useDispatch, useSelector } from "react-redux";
+import { tabHandler } from "../../store/slice/tabSlice";
 import { getFromLocalStorage } from "../../utlis/localStorage";
 
 export default function DeskTopAuthHeader() {
   const user = getFromLocalStorage("user");
+  const dispatch = useDispatch();
+  const tabs = useSelector((state) => state.tab);
+
+  const linkTabHandler = () => {
+    dispatch(tabHandler({ tabName: "link" }));
+  };
+
+  const profieTabHandler = () => {
+    dispatch(tabHandler({ tabName: "profile" }));
+  };
 
   return (
     <nav className="container mx-auto">
@@ -21,13 +33,23 @@ export default function DeskTopAuthHeader() {
               <div className="">
                 <ul className="flex items-center gap-16">
                   <li>
-                    <div className="flex items-center gap-2 bg-[#EFECFE] px-[3vh] py-[1vh] rounded-lg text-[#633BFB] cursor-pointer transition-all hover:text-black">
+                    <div
+                      onClick={linkTabHandler}
+                      className={`${
+                        tabs.activeTab === "link" &&
+                        "bg-[#EFECFE] text-[#633BFB]"
+                      } flex items-center gap-2 px-[3vh] py-[1vh] rounded-lg cursor-pointer transition-all hover:text-black`}>
                       <HiOutlineExternalLink size="20px" />
                       <span className="">Links</span>
                     </div>
                   </li>
                   <li>
-                    <div className="flex items-center gap-2 bg-[#EFECFE] px-[3vh] py-[1vh] rounded-lg text-[#633BFB] cursor-pointer transition-all hover:text-black">
+                    <div
+                      onClick={profieTabHandler}
+                      className={`${
+                        tabs.activeTab === "profile" &&
+                        " bg-[#EFECFE] text-[#633BFB]"
+                      } flex items-center gap-2 px-[3vh] py-[1vh] rounded-lg cursor-pointer transition-all hover:text-black`}>
                       <CgProfile />
                       <span className="">Profile Details</span>
                     </div>

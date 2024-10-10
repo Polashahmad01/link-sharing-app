@@ -5,6 +5,8 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { BsEyeFill } from "react-icons/bs";
 import { IoMdLogOut } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { tabHandler } from "../../store/slice/tabSlice";
 import {
   getFromLocalStorage,
   clearFromLocalStorage,
@@ -14,6 +16,8 @@ export default function MobileAuthHeader() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const user = getFromLocalStorage("user");
+  const dispatch = useDispatch();
+  const tabs = useSelector((state) => state.tab);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -22,6 +26,14 @@ export default function MobileAuthHeader() {
   const logoutHandler = () => {
     clearFromLocalStorage("user");
     navigate("/auth/login");
+  };
+
+  const linkTabHandler = () => {
+    dispatch(tabHandler({ tabName: "link" }));
+  };
+
+  const profileTabHandler = () => {
+    dispatch(tabHandler({ tabName: "profile" }));
   };
 
   return (
@@ -50,10 +62,18 @@ export default function MobileAuthHeader() {
         {user?.data?._id && (
           <>
             <ul className="flex items-center gap-4">
-              <li className="flex items-center gap-2 bg-[#EFECFE] px-[2vh] py-[1vh] rounded-lg text-[#633BFB] cursor-pointer transition-all hover:text-black">
+              <li
+                onClick={linkTabHandler}
+                className={`${
+                  tabs.activeTab === "link" && "bg-[#EFECFE] text-[#633BFB]"
+                } flex items-center gap-2 px-[2vh] py-[1vh] rounded-lg cursor-pointer transition-all hover:text-black`}>
                 <HiOutlineExternalLink />
               </li>
-              <li className="flex items-center gap-2 bg-[#EFECFE] px-[2vh] py-[1vh] rounded-lg text-[#633BFB] cursor-pointer transition-all hover:text-black">
+              <li
+                onClick={profileTabHandler}
+                className={`${
+                  tabs.activeTab === "profile" && "bg-[#EFECFE] text-[#633BFB]"
+                } flex items-center gap-2 px-[2vh] py-[1vh] rounded-lg cursor-pointer transition-all hover:text-black`}>
                 <CgProfile />
               </li>
             </ul>
