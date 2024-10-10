@@ -26,7 +26,7 @@ export default function MobileAuthHeader() {
 
   return (
     <nav className="p-4">
-      <div className="bg-white flex items-center justify-between rounded-md p-4">
+      <div className="bg-white flex items-center justify-between rounded-lg p-4">
         <Link to="/app" className="flex items-center gap-1">
           <FaStaylinked size="20px" color="#2D68FF" />
           <div className="font-semibold text-[#505050] text-xl">devLinks</div>
@@ -50,14 +50,14 @@ export default function MobileAuthHeader() {
         {user?.data?._id && (
           <>
             <ul className="flex items-center gap-4">
-              <li className="flex items-center gap-2 bg-[#EFECFE] px-[2vh] py-[1vh] rounded-md text-[#633BFB] cursor-pointer transition-all hover:text-black">
+              <li className="flex items-center gap-2 bg-[#EFECFE] px-[2vh] py-[1vh] rounded-lg text-[#633BFB] cursor-pointer transition-all hover:text-black">
                 <HiOutlineExternalLink />
               </li>
-              <li className="flex items-center gap-2 bg-[#EFECFE] px-[2vh] py-[1vh] rounded-md text-[#633BFB] cursor-pointer transition-all hover:text-black">
+              <li className="flex items-center gap-2 bg-[#EFECFE] px-[2vh] py-[1vh] rounded-lg text-[#633BFB] cursor-pointer transition-all hover:text-black">
                 <CgProfile />
               </li>
             </ul>
-            <div className="bg-[#EFECFE] px-[2vh] py-[1vh] font-semibold rounded-md text-[#633BFB] border border-[#633BFB] cursor-pointer transition-all hover:text-black hover:border-black">
+            <div className="bg-[#EFECFE] px-[2vh] py-[1vh] font-semibold rounded-lg text-[#633BFB] border border-[#633BFB] cursor-pointer transition-all hover:text-black hover:border-black">
               <BsEyeFill />
             </div>
           </>
@@ -66,7 +66,7 @@ export default function MobileAuthHeader() {
 
       {!user?.data?._id && (
         <div className={`${isOpen ? "block" : "hidden"}`}>
-          <ul className="flex flex-col gap-1 bg-white my-4 text-center p-4 rounded-md">
+          <ul className="flex flex-col gap-1 bg-white my-4 text-center p-4 rounded-lg">
             <li>
               <Link
                 to="/auth/register"
@@ -88,7 +88,7 @@ export default function MobileAuthHeader() {
         <div className="mt-4 flex justify-center items-center">
           <button
             onClick={logoutHandler}
-            className="flex items-center justify-center gap-2 w-full bg-[#EFECFE] py-[1vh] rounded-md text-[#633BFB] border border-transparent cursor-pointer transition-all hover:text-black hover:border hover:border-black">
+            className="flex items-center justify-center gap-2 w-full bg-[#EFECFE] py-[1vh] rounded-lg text-[#633BFB] border border-transparent cursor-pointer transition-all hover:text-black hover:border hover:border-black">
             <IoMdLogOut />
             <span>Logout</span>
           </button>
