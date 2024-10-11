@@ -8,6 +8,7 @@ import {
   FaLinkedin,
   FaInstagram,
 } from "react-icons/fa6";
+import validateUrl from "../utlis/urlValidator";
 
 const socialMediaOptions = [
   {
@@ -32,7 +33,7 @@ const socialMediaOptions = [
     name: "Linkedin",
     icon: <FaLinkedin />,
     value: "linkedin",
-    url: "https://linkedin.com/",
+    url: "https://linkedin.com/in/",
   },
   {
     name: "Instagram",
@@ -44,14 +45,38 @@ const socialMediaOptions = [
 
 export default function AddNewLinkForm() {
   const [isOpen, setIsOpen] = useState(false);
+  const [linkValue, setLinkValue] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [selectedSocial, setSelectedSocial] = useState(null);
 
   const handleSelect = (option) => {
     setSelectedSocial(option);
+    setLinkValue(option.url);
     setIsOpen(false);
+    setErrorMessage("");
   };
 
-  console.log(selectedSocial);
+  const handleInputChange = (event) => {
+    const newValue = event.target.value;
+    setLinkValue(newValue);
+
+    if (selectedSocial) {
+      setSelectedSocial((prevState) => ({
+        ...prevState,
+        url: newValue,
+      }));
+    }
+
+    if (selectedSocial && !validateUrl(newValue, selectedSocial.value)) {
+      setErrorMessage(
+        `Please enter a valid ${selectedSocial.name} URL (must include '/<username>' part).`
+      );
+    } else if (!selectedSocial && !validateUrl(linkValue, linkValue)) {
+      setErrorMessage(`Please select a platform first`);
+    } else {
+      setErrorMessage("");
+    }
+  };
 
   return (
     <form
@@ -102,15 +127,21 @@ export default function AddNewLinkForm() {
       </div>
 
       <div className="text-[13px] text-[#767676]">
-        <p className="mb-1">Link</p>
+        <label htmlFor="link" className="mb-1">
+          Link
+        </label>
         <div className="w-full relative">
           <LuLink className="absolute left-[10px] top-[11px]" />
           <input
             type="text"
             className="w-full py-2 border rounded-lg pl-8 pr-4 focus:outline-none focus:ring-1"
-            value={selectedSocial && selectedSocial.url}
+            onChange={handleInputChange}
+            value={linkValue}
           />
         </div>
+        {errorMessage && (
+          <p className="mt-1 ml-1 text-red-700 text-xs">{errorMessage}</p>
+        )}
       </div>
     </form>
   );

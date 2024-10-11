@@ -5,7 +5,6 @@ import ProfileForm from "../components/ProfileForm";
 
 export default function HomePage() {
   const tabs = useSelector((state) => state.tab);
-  console.log("tabs", tabs);
 
   return (
     <section className="container mx-auto px-4 sm:px-0">
