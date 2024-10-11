@@ -1,8 +1,4 @@
-import makeApiRequest from "./base.service";
-
-const headers = {
-  "Content-type": "application/json",
-};
+import makeApiRequest, { headers } from "./base.service";
 
 export const registerMutation = async (formData) => {
   const response = await makeApiRequest("/api/v1/register", {

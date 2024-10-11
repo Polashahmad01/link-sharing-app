@@ -1,13 +1,17 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { useMutation } from "@tanstack/react-query";
 import { useNotification } from "../hooks/useNotification";
 import { profileSchemaValidator } from "../utlis/schemaValidator";
+import uploadToImageKit from "../utlis/imageKit";
+import { saveProfileMutation } from "../services/profile.service";
 
 export default function ProfileForm() {
   const { notifySuccess, notifyError } = useNotification();
   const [previewImage, setPreviewImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -19,8 +23,16 @@ export default function ProfileForm() {
     mode: "all",
   });
 
-  const onSubmit = (formData) => {
-    console.log("formData", formData);
+  const { mutate, data, isPending } = useMutation({
+    mutationKey: ["profile-key"],
+    mutationFn: saveProfileMutation,
+  });
+
+  const onSubmit = async (formData) => {
+    setIsLoading(true);
+    const imageUrl = await uploadToImageKit(formData.profilePicture);
+    mutate({ ...formData, profilePicture: imageUrl.url });
+    setIsLoading(false);
   };
 
   const handleFileChange = (event) => {
@@ -40,6 +52,16 @@ export default function ProfileForm() {
     setPreviewImage(null);
     setValue("profilePicture", "");
   };
+
+  useEffect(() => {
+    if (data && data.success && data.statusCode === 200) {
+      notifySuccess(data.message);
+    }
+
+    if (data && data.success === false && data.statusCode === 404) {
+      notifyError(data.message);
+    }
+  }, [data, notifyError, notifySuccess]);
 
   return (
     <form className="p-8" onSubmit={handleSubmit(onSubmit)}>
@@ -110,7 +132,7 @@ export default function ProfileForm() {
                 Must be of below types. Use PNG, JPG, or JPEG
               </p>
               {errors.profilePicture && (
-                <p className="text-red-700 text-sm">
+                <p className="text-red-700 text-sm mt-1">
                   {errors.profilePicture.message}
                 </p>
               )}
@@ -183,8 +205,11 @@ export default function ProfileForm() {
       <div className="flex flex-wrap justify-end">
         <button
           type="submit"
-          className="bg-[#633BFB] px-[3vh] py-[1vh] rounded-lg text-white border border-[#633BFB] cursor-pointer transition-all hover:text-[#633BFB] hover:border-[#633BFB] hover:bg-[#EFECFE]">
-          Save
+          disabled={isPending || isLoading}
+          className={`${
+            (isLoading || isLoading) && "cursor-not-allowed"
+          } bg-[#633BFB] px-[3vh] py-[1vh] rounded-lg text-white border border-[#633BFB] cursor-pointer transition-all hover:text-[#633BFB] hover:border-[#633BFB] hover:bg-[#EFECFE]`}>
+          {isPending || isLoading ? "Saving" : "Save"}
         </button>
       </div>
     </form>

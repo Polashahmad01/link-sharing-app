@@ -14,21 +14,30 @@ const createProfile = async (req, res, next) => {
     }
 
     const { profilePicture, firstName, lastName, email } = req.body;
-    const user = await User.findOneAndUpdate(
-      { email: email },
-      {
-        profilePicture: profilePicture,
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-      },
-      { new: true }
-    );
+    const userExits = await User.findOne({ email });
+    if (userExits) {
+      const user = await User.findOneAndUpdate(
+        { email: email },
+        {
+          profilePicture: profilePicture,
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+        },
+        { new: true }
+      );
+      return res.status(200).json({
+        success: true,
+        statusCode: 200,
+        message: "Your changes have been successfully saved!",
+        data: user,
+      });
+    }
     return res.status(200).json({
-      success: true,
-      statusCode: 200,
-      message: "Your changes have been successfully saved!",
-      data: user,
+      success: false,
+      statusCode: 404,
+      message: "Sorry we couldn't find a user with that information!",
+      data: null,
     });
   } catch (error) {
     if (!error.statusCode) {

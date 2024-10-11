@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useNavigate } from "react-router-dom";
@@ -32,17 +33,19 @@ export default function LoginPage() {
     mutate(formData);
   };
 
-  if (data && data.success && data.statusCode === 200) {
-    notifySuccess(data.message);
-    dispatch(login({ user: data }));
-    addToLocalStorage("user", data);
-    navigate("/app");
-  }
+  useEffect(() => {
+    if (data && data.success && data.statusCode === 200) {
+      notifySuccess(data.message);
+      dispatch(login({ user: data }));
+      addToLocalStorage("user", data);
+      navigate("/app");
+    }
 
-  if (data && data.success === false && data.statusCode === 401) {
-    notifyError(data.message);
-    reset();
-  }
+    if (data && data.success === false && data.statusCode === 401) {
+      notifyError(data.message);
+      reset();
+    }
+  }, [data, dispatch, navigate, notifyError, notifySuccess, reset]);
 
   return (
     <section className="container mx-auto flex justify-center items-center">

@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerUserSchemaValidator } from "../utlis/schemaValidator";
 import { Link, useNavigate } from "react-router-dom";
@@ -28,15 +29,17 @@ export default function RegisterPage() {
     mutate(formData);
   };
 
-  if (data && data.success && data.statusCode === 201) {
-    notifySuccess(data.message);
-    navigate("/auth/login");
-  }
+  useEffect(() => {
+    if (data && data.success && data.statusCode === 201) {
+      notifySuccess(data.message);
+      navigate("/auth/login");
+    }
 
-  if (data && data.success === false && data.statusCode === 400) {
-    notifyError(data.message);
-    reset();
-  }
+    if (data && data.success === false && data.statusCode === 400) {
+      notifyError(data.message);
+      reset();
+    }
+  }, [data, navigate, notifyError, notifySuccess, reset]);
 
   return (
     <section className="container mx-auto flex justify-center items-center">
