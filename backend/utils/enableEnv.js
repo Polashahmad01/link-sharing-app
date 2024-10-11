@@ -10,8 +10,8 @@ export const enableEnv = (envPath) => {
 
     dotenv.config({ path: fullPath });
     return true;
-  } catch(error) {
+  } catch (error) {
     console.error(`Error loading environment variables: ${error}`);
     return false;
   }
-}
+};

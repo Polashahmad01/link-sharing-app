@@ -7,6 +7,7 @@ import cors from "cors";
 // Import files
 import connectToDataBase from "./config/db.js";
 import userRoutes from "./routes/user.js";
+import profileRoutes from "./routes/profile.js";
 
 // Connect to Database
 connectToDataBase();
@@ -18,7 +19,7 @@ const app = express();
 app.use(express.json());
 
 // Logs middleware
-if(process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
@@ -27,10 +28,15 @@ app.use(cors());
 
 // Routes
 app.get("/", (req, res, next) => {
-  res.status(200).json({ success: true, statusCode: 200, message: "Welcome to Link Sharing App!", });
+  res.status(200).json({
+    success: true,
+    statusCode: 200,
+    message: "Welcome to Link Sharing App!",
+  });
 });
 
 app.use("/api", userRoutes);
+app.use("/api", profileRoutes);
 
 // Error handling middleware
 app.use((error, req, res, next) => {
@@ -38,7 +44,9 @@ app.use((error, req, res, next) => {
   const status = error.statusCode || 500;
   const message = error.message;
   const data = error.data || [];
-  res.status(status).json({ success: false, statusCode: status, message: message, data: data });
+  res
+    .status(status)
+    .json({ success: false, statusCode: status, message: message, data: data });
 });
 
 // Port
@@ -52,7 +60,7 @@ const server = app.listen(PORT, () => {
 });
 
 // Handling Error
-process.on("unhandledRejection", err => {
+process.on("unhandledRejection", (err) => {
   console.log(`An error occurred: ${err.message}`);
   server.close(() => process.exit(1));
 });
