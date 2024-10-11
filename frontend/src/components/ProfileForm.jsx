@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useMutation } from "@tanstack/react-query";
@@ -7,11 +8,13 @@ import { useNotification } from "../hooks/useNotification";
 import { profileSchemaValidator } from "../utlis/schemaValidator";
 import uploadToImageKit from "../utlis/imageKit";
 import { saveProfileMutation } from "../services/profile.service";
+import { addProfileInfo } from "../store/slice/profileSlice";
 
 export default function ProfileForm() {
   const { notifySuccess, notifyError } = useNotification();
   const [previewImage, setPreviewImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -31,6 +34,14 @@ export default function ProfileForm() {
   const onSubmit = async (formData) => {
     setIsLoading(true);
     const imageUrl = await uploadToImageKit(formData.profilePicture);
+    // form submit
+    dispatch(
+      addProfileInfo({
+        imageUrl: imageUrl.url,
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+      })
+    );
     mutate({ ...formData, profilePicture: imageUrl.url });
     setIsLoading(false);
   };
@@ -43,6 +54,8 @@ export default function ProfileForm() {
       const reader = new FileReader();
       reader.onload = () => {
         setPreviewImage(reader.result);
+        // handle file change
+        dispatch(addProfileInfo({ imageUrl: reader.result }));
       };
       reader.readAsDataURL(file);
     }
@@ -51,6 +64,8 @@ export default function ProfileForm() {
   const handleRemoveImage = () => {
     setPreviewImage(null);
     setValue("profilePicture", "");
+    // remove image
+    dispatch(addProfileInfo({ imageUrl: null }));
   };
 
   useEffect(() => {
