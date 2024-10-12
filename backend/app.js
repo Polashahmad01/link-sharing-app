@@ -8,6 +8,7 @@ import cors from "cors";
 import connectToDataBase from "./config/db.js";
 import userRoutes from "./routes/user.js";
 import profileRoutes from "./routes/profile.js";
+import linkRoutes from "./routes/link.js";
 
 // Connect to Database
 connectToDataBase();
@@ -37,6 +38,7 @@ app.get("/", (req, res, next) => {
 
 app.use("/api", userRoutes);
 app.use("/api", profileRoutes);
+app.use("/api", linkRoutes);
 
 // Error handling middleware
 app.use((error, req, res, next) => {

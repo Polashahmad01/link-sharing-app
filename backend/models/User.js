@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema({
   profilePicture: {
     type: String,
   },
+  links: {
+    type: Array,
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
