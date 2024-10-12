@@ -84,7 +84,52 @@ const loginUser = async (req, res, next) => {
   }
 };
 
+const getSingleUser = async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error(
+        "Unable to proceed. The information you entered is not valid. Please review and correct your entries."
+      );
+      error.statusCode = 422;
+      error.data = errors.array();
+      throw error;
+    }
+
+    const { _id } = req.body;
+    const existingUser = await User.findById(_id);
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: "Sorry we couldn't find a user with that information!",
+        data: "Sorry we couldn't find a user with that information!",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "User is available",
+      data: {
+        _id: existingUser._id,
+        firstName: existingUser.firstName,
+        lastName: existingUser.lastName,
+        email: existingUser.email,
+        profilePicture: existingUser.profilePicture,
+        links: existingUser.links,
+      },
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
 export default {
   createUser,
   loginUser,
+  getSingleUser,
 };

@@ -15,4 +15,10 @@ router.post(
   userController.loginUser
 );
 
+router.post(
+  "/v1/user",
+  userValidator.validateGetSingleUserRoute(),
+  userController.getSingleUser
+);
+
 export default router;

@@ -16,7 +16,12 @@ const validateUserLoginRoute = () => {
   ];
 };
 
+const validateGetSingleUserRoute = () => {
+  return [body("_id", "_id cannot be empty.").notEmpty()];
+};
+
 export default {
   validateUserRegisterRoute,
   validateUserLoginRoute,
+  validateGetSingleUserRoute,
 };
