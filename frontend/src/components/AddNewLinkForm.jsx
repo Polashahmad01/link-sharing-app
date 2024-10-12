@@ -15,31 +15,31 @@ const socialMediaOptions = [
     name: "Facebook",
     icon: <FaFacebook />,
     value: "facebook",
-    url: "https://facebook.com/",
+    url: "https://facebook.com",
   },
   {
     name: "Github",
     icon: <FaGithub />,
     value: "github",
-    url: "https://github.com/",
+    url: "https://github.com",
   },
   {
     name: "Twitter",
     icon: <FaTwitter />,
     value: "twitter",
-    url: "https://twitter.com/",
+    url: "https://twitter.com",
   },
   {
     name: "Linkedin",
     icon: <FaLinkedin />,
     value: "linkedin",
-    url: "https://linkedin.com/in/",
+    url: "https://linkedin.com/in",
   },
   {
     name: "Instagram",
     icon: <FaInstagram />,
     value: "instagram",
-    url: "https://instagram.com/",
+    url: "https://instagram.com",
   },
 ];
 
@@ -57,7 +57,15 @@ export default function AddNewLinkForm({
     setSelectedSocial((prevState) => option);
     setLinkValue(option.url);
     setIsOpen(false);
-    setErrorMessage("");
+
+    if (!validateUrl(option.url, option.value)) {
+      setErrorMessage(
+        `Please enter a valid ${option.name} URL (must include '/<username>' part).`
+      );
+    } else {
+      setErrorMessage("");
+    }
+
     onSocialSelect(linkItem.id, { ...option, url: option.url });
   };
 

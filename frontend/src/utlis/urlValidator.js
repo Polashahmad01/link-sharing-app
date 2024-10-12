@@ -1,15 +1,16 @@
 export default function validateUrl(url, platform) {
-  const baseUrls = {
-    facebook: "https://facebook.com/",
-    github: "https://github.com/",
-    twitter: "https://twitter.com/",
-    linkedin: "https://linkedin.com/in/",
-    instagram: "https://instagram.com/",
+  const platformRegex = {
+    facebook: /^https?:\/\/(www\.)?facebook\.com\/(?!$)([A-Za-z0-9_.-]+)\/?$/,
+    github: /^https?:\/\/(www\.)?github\.com\/(?!$)([A-Za-z0-9_-]+)\/?$/,
+    twitter: /^https?:\/\/(www\.)?twitter\.com\/(?!$)([A-Za-z0-9_]+)\/?$/,
+    linkedin:
+      /^https?:\/\/(www\.)?linkedin\.com\/in\/(?!$)([A-Za-z0-9_-]+)\/?$/,
+    instagram: /^https?:\/\/(www\.)?instagram\.com\/(?!$)([A-Za-z0-9_.-]+)\/?$/,
   };
 
-  const baseUrl = baseUrls[platform];
-  if (!baseUrl) {
+  const regex = platformRegex[platform];
+  if (!regex) {
     return false;
   }
-  return url.startsWith(baseUrl);
+  return regex.test(url);
 }

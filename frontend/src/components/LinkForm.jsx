@@ -16,6 +16,8 @@ export default function LinkForm() {
   const [selectedSocials, setSelectedSocials] = useState({});
   const user = getFromLocalStorage("user");
   const { notifySuccess, notifyError } = useNotification();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const { mutate, data, isPending } = useMutation({
     mutationKey: ["link-key"],
     mutationFn: saveLinkMutation,
@@ -35,6 +37,7 @@ export default function LinkForm() {
         },
       })
     );
+    setErrorMessage("");
   };
 
   const removeNewLinkFormHandler = (linkId) => {
@@ -57,14 +60,37 @@ export default function LinkForm() {
     }));
   };
 
+  const validateSocials = () => {
+    if (Object.keys(selectedSocials).length === 0) {
+      setErrorMessage("Please add a link first.");
+      return false;
+    }
+
+    for (const social of Object.values(selectedSocials)) {
+      if (!social.name || !social.url) {
+        setErrorMessage("Please fill in all the fields for each link.");
+        return false;
+      }
+    }
+
+    setErrorMessage("");
+    return true;
+  };
+
   const subFormHandler = (event) => {
     event.preventDefault();
+    setErrorMessage("");
+    if (!validateSocials()) {
+      return;
+    }
+    console.log("selectedSocials", selectedSocials);
+    setIsLoading(true);
     const formData = formDataFormatter(selectedSocials);
     mutate({ _id: user.data._id, items: formData });
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    console.log("data", data);
     if (data && data.success && data.statusCode === 200) {
       notifySuccess(data.message);
     }
@@ -115,11 +141,17 @@ export default function LinkForm() {
       </div>
 
       <hr className="mb-6" />
+      {errorMessage && (
+        <p className="text-red-500 text-center font-semibold mb-4">
+          {errorMessage}
+        </p>
+      )}
       <div className="flex flex-wrap justify-end">
         <button
           type="submit"
+          disabled={isLoading || isPending}
           className="bg-[#633BFB] px-[3vh] py-[1vh] rounded-lg text-white border border-[#633BFB] cursor-pointer transition-all hover:text-[#633BFB] hover:border-[#633BFB] hover:bg-[#EFECFE]">
-          Save
+          {isPending || isLoading ? "Saving" : "Save"}
         </button>
       </div>
     </form>
