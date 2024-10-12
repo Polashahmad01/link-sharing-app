@@ -9,4 +9,10 @@ router.post(
   linkController.createNewLink
 );
 
+router.delete(
+  "/v1/link",
+  linkValidator.validateDeleteLinkRoute(),
+  linkController.deleteLink
+);
+
 export default router;

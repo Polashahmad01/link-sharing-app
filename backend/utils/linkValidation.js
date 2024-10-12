@@ -7,6 +7,14 @@ const validateLinkCreateRoute = () => {
   ];
 };
 
+const validateDeleteLinkRoute = () => {
+  return [
+    body("_id", "_id cannot be empty.").notEmpty(),
+    body("linkId", "linkId cannot be empty.").notEmpty(),
+  ];
+};
+
 export default {
   validateLinkCreateRoute,
+  validateDeleteLinkRoute,
 };

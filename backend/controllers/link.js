@@ -59,6 +59,57 @@ const createNewLink = async (req, res, next) => {
   }
 };
 
+const deleteLink = async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error(
+        "Unable to proceed. The information you entered is not valid. Please review and correct your entries."
+      );
+      error.statusCode = 422;
+      error.data = errors.array();
+      throw error;
+    }
+
+    const { _id, linkId } = req.body;
+    const user = await User.findById(_id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: "Sorry, we couldn't find a user with that information!",
+        data: null,
+      });
+    }
+
+    const linkIndex = user.links.findIndex((link) => link.id === linkId);
+    if (linkIndex === -1) {
+      return res.status(404).json({
+        success: false,
+        statusCode: 404,
+        message: "Sorry, we couldn't find a link with that information!",
+        data: null,
+      });
+    }
+
+    user.links.splice(linkIndex, 1);
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Your link have been successfully deleted!",
+      data: null,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
 export default {
   createNewLink,
+  deleteLink,
 };
