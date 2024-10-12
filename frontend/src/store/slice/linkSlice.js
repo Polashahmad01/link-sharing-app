@@ -5,7 +5,12 @@ const initialState = {
   items: [
     // {
     //   id: uuidv4(),
-    //   link: [],
+    //   platformName: {
+    //     name: "",
+    //     icon: "",
+    //     value: "",
+    //     url: "",
+    //   },
     // },
   ],
 };
@@ -16,7 +21,7 @@ export const linkSlice = createSlice({
   reducers: {
     addLink: (state, action) => {
       if (action.type === "link/addLink") {
-        state.links = state.items.push(action.payload.item);
+        state.items.push(action.payload.item);
       }
     },
     removeLink: (state, action) => {

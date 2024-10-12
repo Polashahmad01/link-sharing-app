@@ -7,7 +7,7 @@ import { addLink, removeLink } from "../store/slice/linkSlice";
 
 export default function LinkForm() {
   const dispatch = useDispatch();
-  const linksData = useSelector((state) => state.links);
+  const linksData = useSelector((state) => state.link);
   const [selectedSocials, setSelectedSocials] = useState({});
 
   const addNewLinkFormHandler = () => {
@@ -15,7 +15,12 @@ export default function LinkForm() {
       addLink({
         item: {
           id: uuidv4(),
-          link: "",
+          platformName: {
+            name: "",
+            icon: "",
+            value: "",
+            url: "",
+          },
         },
       })
     );

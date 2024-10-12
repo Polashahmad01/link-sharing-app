@@ -9,6 +9,6 @@ export const store = configureStore({
     auth: authSlice,
     tab: tabSlice,
     profile: profileSlice,
-    links: linkSlice,
+    link: linkSlice,
   },
 });
