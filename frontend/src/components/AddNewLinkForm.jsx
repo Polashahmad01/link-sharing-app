@@ -43,17 +43,22 @@ const socialMediaOptions = [
   },
 ];
 
-export default function AddNewLinkForm() {
+export default function AddNewLinkForm({
+  linkItem,
+  onSocialSelect,
+  onRemoveNewLinkHandler,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [linkValue, setLinkValue] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedSocial, setSelectedSocial] = useState(null);
 
   const handleSelect = (option) => {
-    setSelectedSocial(option);
+    setSelectedSocial((prevState) => option);
     setLinkValue(option.url);
     setIsOpen(false);
     setErrorMessage("");
+    onSocialSelect(linkItem.id, { ...option, url: option.url });
   };
 
   const handleInputChange = (event) => {
@@ -61,10 +66,13 @@ export default function AddNewLinkForm() {
     setLinkValue(newValue);
 
     if (selectedSocial) {
-      setSelectedSocial((prevState) => ({
-        ...prevState,
+      const updatedSocial = {
+        ...selectedSocial,
         url: newValue,
-      }));
+      };
+
+      setSelectedSocial(updatedSocial);
+      onSocialSelect(linkItem.id, updatedSocial);
     }
 
     if (selectedSocial && !validateUrl(newValue, selectedSocial.value)) {
@@ -79,16 +87,21 @@ export default function AddNewLinkForm() {
   };
 
   return (
-    <form
-      onSubmit={(e) => e.preventDefault()}
-      className="bg-[#FAFAFA] mb-6 p-4 rounded-lg">
+    <div className="bg-[#FAFAFA] mb-6 p-4 rounded-lg">
       <div className="text-[#767676] mb-4">
         <div className="text-sm flex flex-wrap items-center justify-between">
           <div className="flex flex-wrap items-center gap-1">
             <LuEqual />
-            <span className="font-semibold">Link #1</span>
+            <span className="font-semibold">
+              Link #{linkItem && linkItem.id}
+            </span>
           </div>
-          <button>Remove</button>
+          <button
+            type="button"
+            onClick={() => onRemoveNewLinkHandler(linkItem.id)}
+            className="transition-all hover:text-red-700">
+            Remove
+          </button>
         </div>
       </div>
 
@@ -98,6 +111,7 @@ export default function AddNewLinkForm() {
         </label>
         <div className="relative">
           <button
+            type="button"
             onClick={() => setIsOpen(!isOpen)}
             className="border p-2 rounded-md focus:outline-none focus:ring-1 w-full">
             {selectedSocial ? (
@@ -143,6 +157,6 @@ export default function AddNewLinkForm() {
           <p className="mt-1 ml-1 text-red-700 text-xs">{errorMessage}</p>
         )}
       </div>
-    </form>
+    </div>
   );
 }
