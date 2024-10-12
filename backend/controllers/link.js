@@ -78,7 +78,7 @@ const deleteLink = async (req, res, next) => {
         success: false,
         statusCode: 404,
         message: "Sorry, we couldn't find a user with that information!",
-        data: null,
+        data: "Sorry, we couldn't find a user with that information!",
       });
     }
 
@@ -88,7 +88,7 @@ const deleteLink = async (req, res, next) => {
         success: false,
         statusCode: 404,
         message: "Sorry, we couldn't find a link with that information!",
-        data: null,
+        data: "Sorry, we couldn't find a link with that information!",
       });
     }
 
@@ -99,7 +99,7 @@ const deleteLink = async (req, res, next) => {
       success: true,
       statusCode: 200,
       message: "Your link have been successfully deleted!",
-      data: null,
+      data: "Your link have been successfully deleted!",
     });
   } catch (error) {
     if (!error.statusCode) {

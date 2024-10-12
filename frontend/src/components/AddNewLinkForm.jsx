@@ -6,7 +6,9 @@ import socialMediaOptions from "../utlis/socialMediaList";
 
 export default function AddNewLinkForm({
   linkItem,
+  isDeleteLinkPending,
   onSocialSelect,
+  onSetLinkIdentifier,
   onRemoveNewLinkHandler,
   onError,
 }) {
@@ -74,7 +76,11 @@ export default function AddNewLinkForm({
           </div>
           <button
             type="button"
-            onClick={() => onRemoveNewLinkHandler(linkItem.id)}
+            disabled={isDeleteLinkPending}
+            onClick={() => {
+              onRemoveNewLinkHandler(linkItem.id);
+              onSetLinkIdentifier(linkItem.id);
+            }}
             className="transition-all hover:text-red-700">
             Remove
           </button>

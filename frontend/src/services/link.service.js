@@ -9,3 +9,13 @@ export const saveLinkMutation = async (formData) => {
 
   return await response.json();
 };
+
+export const deleteLinkMutation = async (formData) => {
+  const response = await makeApiRequest("/api/v1/link", {
+    headers,
+    method: "DELETE",
+    body: JSON.stringify(formData),
+  });
+
+  return await response.json();
+};
