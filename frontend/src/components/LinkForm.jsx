@@ -6,7 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import AddNewLinkForm from "./AddNewLinkForm";
 import { useNotification } from "../hooks/useNotification";
 import { saveLinkMutation } from "../services/link.service";
-import { addLink, removeLink } from "../store/slice/linkSlice";
+import { addLink, removeLink, addFromDataBase } from "../store/slice/linkSlice";
 import { getFromLocalStorage } from "../utlis/localStorage";
 import { formDataFormatter } from "../utlis/dataFormatter";
 
@@ -28,12 +28,6 @@ export default function LinkForm() {
       addLink({
         item: {
           id: uuidv4(),
-          platformName: {
-            name: "",
-            icon: "",
-            value: "",
-            url: "",
-          },
         },
       })
     );
@@ -93,6 +87,7 @@ export default function LinkForm() {
   useEffect(() => {
     if (data && data.success && data.statusCode === 200) {
       notifySuccess(data.message);
+      dispatch(addFromDataBase({ items: data.data.links }));
     }
 
     if (data && data.success === false && data.statusCode === 404) {
@@ -102,7 +97,7 @@ export default function LinkForm() {
     if (data && data.success === false && data.statusCode === 422) {
       notifyError(data.message);
     }
-  }, [data, notifyError, notifySuccess]);
+  }, [data, dispatch, notifyError, notifySuccess]);
 
   return (
     <form className="p-8" onSubmit={subFormHandler}>

@@ -24,6 +24,25 @@ export const linkSlice = createSlice({
         state.items.push(action.payload.item);
       }
     },
+    addFromDataBase: (state, action) => {
+      if (action.type === "link/addFromDataBase") {
+        const newItems = action.payload.items;
+
+        newItems.forEach((newItem) => {
+          const existingItemIndex = state.items.findIndex(
+            (item) => item.id === newItem.id
+          );
+
+          if (existingItemIndex !== -1) {
+            state.items[existingItemIndex] = newItem;
+            console.log(`Updated item with ID ${newItem.id}.`);
+          } else {
+            state.items.push(newItem);
+            console.log(`Added new item with ID ${newItem.id}.`);
+          }
+        });
+      }
+    },
     removeLink: (state, action) => {
       if (action.type === "link/removeLink") {
         state.items = state.items.filter(
@@ -34,5 +53,5 @@ export const linkSlice = createSlice({
   },
 });
 
-export const { addLink, removeLink } = linkSlice.actions;
+export const { addLink, addFromDataBase, removeLink } = linkSlice.actions;
 export default linkSlice.reducer;
