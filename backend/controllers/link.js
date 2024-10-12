@@ -18,7 +18,7 @@ const createNewLink = async (req, res, next) => {
     if (!userExits) {
       return res.status(404).json({
         success: false,
-        satusCode: 404,
+        statusCode: 404,
         message: "Sorry we couldn't find a user with that information!",
         data: null,
       });
@@ -39,18 +39,18 @@ const createNewLink = async (req, res, next) => {
 
     const updatedUser = await userExits.save();
 
-    return res
-      .status(200)
-      .json({
-        success: true,
-        data: {
-          _id: updatedUser._id,
-          firstName: updatedUser.firstName,
-          lastName: updatedUser.lastName,
-          email: updatedUser.email,
-          links: updatedUser.links,
-        },
-      });
+    return res.status(200).json({
+      success: true,
+      statusCode: 200,
+      message: "Your changes have been successfully saved!",
+      data: {
+        _id: updatedUser._id,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        email: updatedUser.email,
+        links: updatedUser.links,
+      },
+    });
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;

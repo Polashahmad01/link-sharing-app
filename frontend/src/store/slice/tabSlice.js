@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  activeTab: "link",
+  activeTab: "profile",
 };
 
 export const tabSlice = createSlice({

@@ -1,14 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
+import { useMutation } from "@tanstack/react-query";
 import AddNewLinkForm from "./AddNewLinkForm";
+import { useNotification } from "../hooks/useNotification";
+import { saveLinkMutation } from "../services/link.service";
 import { addLink, removeLink } from "../store/slice/linkSlice";
+import { getFromLocalStorage } from "../utlis/localStorage";
+import { formDataFormatter } from "../utlis/dataFormatter";
 
 export default function LinkForm() {
   const dispatch = useDispatch();
   const linksData = useSelector((state) => state.link);
   const [selectedSocials, setSelectedSocials] = useState({});
+  const user = getFromLocalStorage("user");
+  const { notifySuccess, notifyError } = useNotification();
+  const { mutate, data, isPending } = useMutation({
+    mutationKey: ["link-key"],
+    mutationFn: saveLinkMutation,
+  });
 
   const addNewLinkFormHandler = () => {
     dispatch(
@@ -48,8 +59,24 @@ export default function LinkForm() {
 
   const subFormHandler = (event) => {
     event.preventDefault();
-    console.log("selectedSocials", selectedSocials);
+    const formData = formDataFormatter(selectedSocials);
+    mutate({ _id: user.data._id, items: formData });
   };
+
+  useEffect(() => {
+    console.log("data", data);
+    if (data && data.success && data.statusCode === 200) {
+      notifySuccess(data.message);
+    }
+
+    if (data && data.success === false && data.statusCode === 404) {
+      notifyError(data.message);
+    }
+
+    if (data && data.success === false && data.statusCode === 422) {
+      notifyError(data.message);
+    }
+  }, [data, notifyError, notifySuccess]);
 
   return (
     <form className="p-8" onSubmit={subFormHandler}>
