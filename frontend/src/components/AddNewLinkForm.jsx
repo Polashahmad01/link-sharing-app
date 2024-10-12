@@ -1,52 +1,14 @@
 import { useState } from "react";
 import { LuEqual, LuLink } from "react-icons/lu";
-import {
-  FaAngleDown,
-  FaFacebook,
-  FaGithub,
-  FaTwitter,
-  FaLinkedin,
-  FaInstagram,
-} from "react-icons/fa6";
+import { FaAngleDown } from "react-icons/fa6";
 import validateUrl from "../utlis/urlValidator";
-
-const socialMediaOptions = [
-  {
-    name: "Facebook",
-    icon: <FaFacebook />,
-    value: "facebook",
-    url: "https://facebook.com",
-  },
-  {
-    name: "Github",
-    icon: <FaGithub />,
-    value: "github",
-    url: "https://github.com",
-  },
-  {
-    name: "Twitter",
-    icon: <FaTwitter />,
-    value: "twitter",
-    url: "https://twitter.com",
-  },
-  {
-    name: "Linkedin",
-    icon: <FaLinkedin />,
-    value: "linkedin",
-    url: "https://linkedin.com/in",
-  },
-  {
-    name: "Instagram",
-    icon: <FaInstagram />,
-    value: "instagram",
-    url: "https://instagram.com",
-  },
-];
+import socialMediaOptions from "../utlis/socialMediaList";
 
 export default function AddNewLinkForm({
   linkItem,
   onSocialSelect,
   onRemoveNewLinkHandler,
+  onError,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [linkValue, setLinkValue] = useState("");
@@ -54,16 +16,19 @@ export default function AddNewLinkForm({
   const [selectedSocial, setSelectedSocial] = useState(null);
 
   const handleSelect = (option) => {
-    setSelectedSocial((prevState) => option);
+    setSelectedSocial(option);
     setLinkValue(option.url);
     setIsOpen(false);
 
-    if (!validateUrl(option.url, option.value)) {
+    const isValid = validateUrl(option.url, option.value);
+    if (!isValid) {
       setErrorMessage(
         `Please enter a valid ${option.name} URL (must include '/<username>' part).`
       );
+      onError(linkItem.id, true);
     } else {
       setErrorMessage("");
+      onError(linkItem.id, false);
     }
 
     onSocialSelect(linkItem.id, { ...option, url: option.url });
@@ -74,23 +39,26 @@ export default function AddNewLinkForm({
     setLinkValue(newValue);
 
     if (selectedSocial) {
-      const updatedSocial = {
-        ...selectedSocial,
-        url: newValue,
-      };
-
+      const updatedSocial = { ...selectedSocial, url: newValue };
       setSelectedSocial(updatedSocial);
       onSocialSelect(linkItem.id, updatedSocial);
-    }
 
-    if (selectedSocial && !validateUrl(newValue, selectedSocial.value)) {
-      setErrorMessage(
-        `Please enter a valid ${selectedSocial.name} URL (must include '/<username>' part).`
-      );
-    } else if (!selectedSocial && !validateUrl(linkValue, linkValue)) {
-      setErrorMessage(`Please select a platform first`);
+      const isValid = validateUrl(newValue, selectedSocial.value);
+      if (!isValid) {
+        setErrorMessage(
+          `Please enter a valid ${selectedSocial.name} URL (must include '/<username>' part).`
+        );
+        onError(linkItem.id, true);
+      } else {
+        setErrorMessage("");
+        onError(linkItem.id, false);
+      }
+    } else if (!validateUrl(newValue, newValue)) {
+      setErrorMessage("Please select a platform first");
+      onError(linkItem.id, true);
     } else {
       setErrorMessage("");
+      onError(linkItem.id, false);
     }
   };
 

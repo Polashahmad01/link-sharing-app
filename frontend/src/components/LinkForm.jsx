@@ -14,10 +14,10 @@ export default function LinkForm() {
   const dispatch = useDispatch();
   const linksData = useSelector((state) => state.link);
   const [selectedSocials, setSelectedSocials] = useState({});
+  const [formErrors, setFormErrors] = useState({});
   const user = getFromLocalStorage("user");
   const { notifySuccess, notifyError } = useNotification();
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const { mutate, data, isPending } = useMutation({
     mutationKey: ["link-key"],
     mutationFn: saveLinkMutation,
@@ -37,19 +37,21 @@ export default function LinkForm() {
         },
       })
     );
-    setErrorMessage("");
   };
 
   const removeNewLinkFormHandler = (linkId) => {
-    dispatch(
-      removeLink({
-        itemId: linkId,
-      })
-    );
+    dispatch(removeLink({ itemId: linkId }));
+
     setSelectedSocials((prevSocials) => {
-      const updatedSocials = { ...prevSocials };
-      delete updatedSocials[linkId];
-      return updatedSocials;
+      return Object.fromEntries(
+        Object.entries(prevSocials).filter(([key]) => key !== linkId)
+      );
+    });
+
+    setFormErrors((prevErrors) => {
+      return Object.fromEntries(
+        Object.entries(prevErrors).filter(([key]) => key !== linkId)
+      );
     });
   };
 
@@ -60,30 +62,28 @@ export default function LinkForm() {
     }));
   };
 
-  const validateSocials = () => {
-    if (Object.keys(selectedSocials).length === 0) {
-      setErrorMessage("Please add a link first.");
-      return false;
-    }
-
-    for (const social of Object.values(selectedSocials)) {
-      if (!social.name || !social.url) {
-        setErrorMessage("Please fill in all the fields for each link.");
-        return false;
-      }
-    }
-
-    setErrorMessage("");
-    return true;
+  const handleFormError = (linkId, hasError) => {
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [linkId]: hasError,
+    }));
   };
 
   const subFormHandler = (event) => {
     event.preventDefault();
-    setErrorMessage("");
-    if (!validateSocials()) {
+    const hasErrors = Object.values(formErrors).some((error) => error);
+    const noLinksAdded = Object.keys(selectedSocials).length === 0;
+
+    if (hasErrors) {
+      notifyError("Please fix the errors in the links before submitting.");
       return;
     }
-    console.log("selectedSocials", selectedSocials);
+
+    if (noLinksAdded) {
+      notifyError("Please add at least one social media link.");
+      return;
+    }
+
     setIsLoading(true);
     const formData = formDataFormatter(selectedSocials);
     mutate({ _id: user.data._id, items: formData });
@@ -129,6 +129,7 @@ export default function LinkForm() {
             <AddNewLinkForm
               key={item.id}
               linkItem={item}
+              onError={handleFormError}
               onSocialSelect={handleSocialSelect}
               onRemoveNewLinkHandler={removeNewLinkFormHandler}
             />
@@ -141,11 +142,6 @@ export default function LinkForm() {
       </div>
 
       <hr className="mb-6" />
-      {errorMessage && (
-        <p className="text-red-500 text-center font-semibold mb-4">
-          {errorMessage}
-        </p>
-      )}
       <div className="flex flex-wrap justify-end">
         <button
           type="submit"
