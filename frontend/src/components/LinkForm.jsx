@@ -60,7 +60,14 @@ export default function LinkForm() {
   };
 
   const removeNewLinkFormHandler = (linkId) => {
-    mutateDeleteLink({ _id: user.data._id, linkId });
+    const currentLink = linksData.items.find((item) => item.id === linkId);
+
+    if (currentLink.platformName && currentLink.id) {
+      mutateDeleteLink({ _id: user.data._id, linkId });
+    } else if (currentLink.id) {
+      dispatch(removeLink({ itemId: linkId }));
+    }
+
     setSelectedSocials((prevSocials) => {
       return Object.fromEntries(
         Object.entries(prevSocials).filter(([key]) => key !== linkId)
@@ -106,6 +113,9 @@ export default function LinkForm() {
     setIsLoading(true);
     const formData = formDataFormatter(selectedSocials);
     mutate({ _id: user.data._id, items: formData });
+    if (currentUserData) {
+      dispatch(addFromDataBase({ items: currentUserData.data.links }));
+    }
     setIsLoading(false);
   };
 

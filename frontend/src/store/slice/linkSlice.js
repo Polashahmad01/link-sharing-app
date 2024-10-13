@@ -20,13 +20,11 @@ export const linkSlice = createSlice({
   initialState,
   reducers: {
     addLink: (state, action) => {
-      console.log("Add Link action", action);
       if (action.type === "link/addLink") {
         state.items.push(action.payload.item);
       }
     },
     addFromDataBase: (state, action) => {
-      console.log("Add from data base", action);
       if (action.type === "link/addFromDataBase") {
         const newItems = action.payload.items;
 
@@ -46,7 +44,6 @@ export const linkSlice = createSlice({
       }
     },
     removeLink: (state, action) => {
-      console.log("Remove link", action);
       if (action.type === "link/removeLink") {
         state.items = state.items.filter(
           (item) => item.id !== action.payload.itemId
