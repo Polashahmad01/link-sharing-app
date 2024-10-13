@@ -5,6 +5,8 @@ import HomePage from "./views/HomePage";
 import RegisterPage from "./views/RegisterPage";
 import LoginPage from "./views/LoginPage";
 import ErrorPage from "./views/ErrorPage";
+import PreviewLayout from "./layouts/PreviewLayout";
+import LinkSharingPage from "./views/LinkSharingPage";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,17 @@ const router = createBrowserRouter([
       {
         path: "/auth/login",
         element: <LoginPage />,
+      },
+    ],
+  },
+  {
+    path: "/link/:userId",
+    element: <PreviewLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <LinkSharingPage />,
       },
     ],
   },
