@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMutation } from "@tanstack/react-query";
 import AddNewLinkForm from "./AddNewLinkForm";
 import { useNotification } from "../hooks/useNotification";
+import { getCurrentUserMutation } from "../services/auth.service";
 import { saveLinkMutation, deleteLinkMutation } from "../services/link.service";
 import { addLink, removeLink, addFromDataBase } from "../store/slice/linkSlice";
 import { getFromLocalStorage } from "../utlis/localStorage";
@@ -31,6 +32,22 @@ export default function LinkForm() {
     mutationKey: ["link-delete"],
     mutationFn: deleteLinkMutation,
   });
+  const { mutate: mutateCurrentUser, data: currentUserData } = useMutation({
+    mutationKey: ["get-current-user"],
+    mutationFn: getCurrentUserMutation,
+  });
+
+  // Get current user
+  useEffect(() => {
+    mutateCurrentUser({ _id: user.data._id });
+  }, [mutateCurrentUser, user.data._id]);
+
+  // Set the redux link slice with current user data
+  useEffect(() => {
+    if (currentUserData) {
+      dispatch(addFromDataBase({ items: currentUserData.data.links }));
+    }
+  }, [currentUserData, dispatch]);
 
   const addNewLinkFormHandler = () => {
     dispatch(
@@ -159,6 +176,7 @@ export default function LinkForm() {
             <AddNewLinkForm
               key={item.id}
               linkItem={item}
+              currentLinkItems={currentUserData?.data?.links}
               isDeleteLinkPending={deleteLinkPending}
               onError={handleFormError}
               onSocialSelect={handleSocialSelect}

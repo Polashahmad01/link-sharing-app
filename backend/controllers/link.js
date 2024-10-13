@@ -27,14 +27,7 @@ const createNewLink = async (req, res, next) => {
     if (userExits.links.length === 0) {
       userExits.links = items;
     } else {
-      const existingLinks = userExits.links;
-
-      const newItems = items.filter(
-        (newItem) =>
-          !existingLinks.some((existingItem) => existingItem.id === newItem.id)
-      );
-
-      userExits.links.push(...newItems);
+      userExits.links = items;
     }
 
     const updatedUser = await userExits.save();

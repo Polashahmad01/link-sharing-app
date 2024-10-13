@@ -1,4 +1,12 @@
-import { useState } from "react";
+import {
+  FaFacebook,
+  FaGithub,
+  FaTwitter,
+  FaLinkedin,
+  FaInstagram,
+} from "react-icons/fa6";
+
+import { useEffect, useState } from "react";
 import { LuEqual, LuLink } from "react-icons/lu";
 import { FaAngleDown } from "react-icons/fa6";
 import validateUrl from "../utlis/urlValidator";
@@ -6,6 +14,7 @@ import socialMediaOptions from "../utlis/socialMediaList";
 
 export default function AddNewLinkForm({
   linkItem,
+  currentLinkItems,
   isDeleteLinkPending,
   onSocialSelect,
   onSetLinkIdentifier,
@@ -16,6 +25,17 @@ export default function AddNewLinkForm({
   const [linkValue, setLinkValue] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedSocial, setSelectedSocial] = useState(null);
+
+  // Pre-fill form
+  useEffect(() => {
+    const existingLinkItem = currentLinkItems?.find(
+      (item) => item.id === linkItem.id
+    );
+    if (existingLinkItem) {
+      setSelectedSocial(existingLinkItem.platformName);
+      setLinkValue(existingLinkItem.platformName.url);
+    }
+  }, [currentLinkItems, linkItem.id]);
 
   const handleSelect = (option) => {
     setSelectedSocial(option);
@@ -99,7 +119,13 @@ export default function AddNewLinkForm({
             {selectedSocial ? (
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  {selectedSocial.icon} {selectedSocial.name}
+                  {/* Only render a single icon */}
+                  {selectedSocial.name === "Facebook" && <FaFacebook />}
+                  {selectedSocial.name === "Github" && <FaGithub />}
+                  {selectedSocial.name === "Twitter" && <FaTwitter />}
+                  {selectedSocial.name === "Linkedin" && <FaLinkedin />}
+                  {selectedSocial.name === "Instagram" && <FaInstagram />}
+                  {selectedSocial.name}
                 </div>
                 <FaAngleDown />
               </div>

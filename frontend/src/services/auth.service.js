@@ -17,3 +17,12 @@ export const loginMutation = async (formData) => {
   });
   return await response.json();
 };
+
+export const getCurrentUserMutation = async (formData) => {
+  const response = await makeApiRequest("/api/v1/user", {
+    headers,
+    method: "POST",
+    body: JSON.stringify(formData),
+  });
+  return await response.json();
+};
