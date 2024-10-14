@@ -58,9 +58,12 @@ export default function DeskTopAuthHeader() {
               </div>
 
               <div>
-                <button className="bg-[#EFECFE] px-[3vh] py-[1vh] font-semibold rounded-lg text-[#633BFB] border border-[#633BFB] cursor-pointer transition-all hover:text-black hover:border-black">
+                <Link
+                  to={`${window.location.origin}/link/${user?.data?._id}`}
+                  target="_blank"
+                  className="bg-[#EFECFE] px-[3vh] py-[1vh] font-semibold rounded-lg text-[#633BFB] border border-[#633BFB] cursor-pointer transition-all hover:text-black hover:border-black">
                   Preview
-                </button>
+                </Link>
               </div>
             </>
           )}

@@ -77,9 +77,11 @@ export default function MobileAuthHeader() {
                 <CgProfile />
               </li>
             </ul>
-            <div className="bg-[#EFECFE] px-[2vh] py-[1vh] font-semibold rounded-lg text-[#633BFB] border border-[#633BFB] cursor-pointer transition-all hover:text-black hover:border-black">
+            <Link
+              to={`${window.location.origin}/link/${user?.data?._id}`}
+              className="bg-[#EFECFE] px-[2vh] py-[1vh] font-semibold rounded-lg text-[#633BFB] border border-[#633BFB] cursor-pointer transition-all hover:text-black hover:border-black">
               <BsEyeFill />
-            </div>
+            </Link>
           </>
         )}
       </div>
