@@ -71,8 +71,10 @@ export default function LinkForm() {
     const currentLink = linksData.items.find((item) => item.id === linkId);
 
     if (currentLink.platformName && currentLink.id) {
+      console.log("old Link with full data");
       mutateDeleteLink({ _id: user.data._id, linkId });
-    } else if (currentLink.id) {
+    } else {
+      console.log("new link with only id");
       dispatch(removeLink({ itemId: linkId }));
     }
 
