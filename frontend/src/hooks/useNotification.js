@@ -19,7 +19,7 @@ const notifyWarning = (message, duration = DEFAULT_DURATION) =>
 
 const notify = (type, message, duration) => {
   const method = type === "default" ? toast : toast[type];
-  method(message, { autoClose: duration, position: "top-right" });
+  method(message, { autoClose: duration, position: "bottom-center" });
 };
 
 export const useNotification = () => ({
