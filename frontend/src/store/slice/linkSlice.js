@@ -35,10 +35,10 @@ export const linkSlice = createSlice({
 
           if (existingItemIndex !== -1) {
             state.items[existingItemIndex] = newItem;
-            console.log(`Updated item with ID ${newItem.id}.`);
+            // console.log(`Updated item with ID ${newItem.id}.`);
           } else {
             state.items.push(newItem);
-            console.log(`Added new item with ID ${newItem.id}.`);
+            // console.log(`Added new item with ID ${newItem.id}.`);
           }
         });
       }
@@ -50,8 +50,12 @@ export const linkSlice = createSlice({
         );
       }
     },
+    resetAllLinks: (state) => {
+      state.items = [];
+    },
   },
 });
 
-export const { addLink, addFromDataBase, removeLink } = linkSlice.actions;
+export const { addLink, addFromDataBase, removeLink, resetAllLinks } =
+  linkSlice.actions;
 export default linkSlice.reducer;

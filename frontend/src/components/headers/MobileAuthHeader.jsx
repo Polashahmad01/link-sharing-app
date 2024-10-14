@@ -7,6 +7,9 @@ import { BsEyeFill } from "react-icons/bs";
 import { IoMdLogOut } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { tabHandler } from "../../store/slice/tabSlice";
+import { logout } from "../../store/slice/authSlice";
+import { removeProfileInfo } from "../../store/slice/profileSlice";
+import { resetAllLinks } from "../../store/slice/linkSlice";
 import {
   getFromLocalStorage,
   clearFromLocalStorage,
@@ -25,6 +28,10 @@ export default function MobileAuthHeader() {
 
   const logoutHandler = () => {
     clearFromLocalStorage("user");
+    dispatch(logout());
+    dispatch(tabHandler({ tabName: "" }));
+    dispatch(removeProfileInfo());
+    dispatch(resetAllLinks());
     navigate("/auth/login");
   };
 

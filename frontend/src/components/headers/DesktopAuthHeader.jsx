@@ -4,6 +4,8 @@ import { HiOutlineExternalLink } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { tabHandler } from "../../store/slice/tabSlice";
+import { logout } from "../../store/slice/authSlice";
+import { resetAllLinks } from "../../store/slice/linkSlice";
 import { removeProfileInfo } from "../../store/slice/profileSlice";
 import {
   getFromLocalStorage,
@@ -27,6 +29,9 @@ export default function DeskTopAuthHeader() {
   const logoutHandler = () => {
     clearFromLocalStorage("user");
     dispatch(removeProfileInfo());
+    dispatch(logout());
+    dispatch(tabHandler({ tabName: "" }));
+    dispatch(resetAllLinks());
     navigate("/auth/login");
   };
 

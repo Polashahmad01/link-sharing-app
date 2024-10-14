@@ -9,6 +9,9 @@ import { profileSchemaValidator } from "../utlis/schemaValidator";
 import uploadToImageKit from "../utlis/imageKit";
 import { saveProfileMutation } from "../services/profile.service";
 import { addProfileInfo } from "../store/slice/profileSlice";
+import { addFromDataBase } from "../store/slice/linkSlice";
+import { getCurrentUserMutation } from "../services/auth.service";
+import { getFromLocalStorage } from "../utlis/localStorage";
 
 export default function ProfileForm() {
   const { notifySuccess, notifyError } = useNotification();
@@ -29,6 +32,12 @@ export default function ProfileForm() {
   const { mutate, data, isPending } = useMutation({
     mutationKey: ["profile-key"],
     mutationFn: saveProfileMutation,
+  });
+
+  const user = getFromLocalStorage("user");
+  const { mutate: mutateCurrentUser, data: currentUserData } = useMutation({
+    mutationKey: ["get-current-user"],
+    mutationFn: getCurrentUserMutation,
   });
 
   const onSubmit = async (formData) => {
@@ -77,6 +86,25 @@ export default function ProfileForm() {
       notifyError(data.message);
     }
   }, [data, notifyError, notifySuccess]);
+
+  // Get current user
+  useEffect(() => {
+    mutateCurrentUser({ _id: user.data._id });
+  }, [mutateCurrentUser, user.data._id]);
+
+  // Set the redux link slice with current user data
+  useEffect(() => {
+    if (currentUserData) {
+      dispatch(
+        addProfileInfo({
+          imageUrl: currentUserData.data.profilePicture,
+          name: `${currentUserData.data.firstName} ${currentUserData.data.lastName}`,
+          email: currentUserData.data.email,
+        })
+      );
+      dispatch(addFromDataBase({ items: currentUserData.data.links }));
+    }
+  }, [currentUserData, dispatch]);
 
   return (
     <form className="p-8" onSubmit={handleSubmit(onSubmit)}>
