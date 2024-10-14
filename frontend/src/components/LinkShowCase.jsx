@@ -28,7 +28,7 @@ export default function LinkShowCase() {
             )}
             {linkData.items &&
               linkData.items.map((item) => (
-                <LinkItem key={item.item} linkInfo={item} />
+                <LinkItem key={item.id} linkInfo={item} />
               ))}
           </div>
         </div>
