@@ -1,12 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaStaylinked } from "react-icons/fa6";
 import { HiOutlineExternalLink } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { tabHandler } from "../../store/slice/tabSlice";
-import { getFromLocalStorage } from "../../utlis/localStorage";
+import { removeProfileInfo } from "../../store/slice/profileSlice";
+import {
+  getFromLocalStorage,
+  clearFromLocalStorage,
+} from "../../utlis/localStorage";
 
 export default function DeskTopAuthHeader() {
+  const navigate = useNavigate();
   const user = getFromLocalStorage("user");
   const dispatch = useDispatch();
   const tabs = useSelector((state) => state.tab);
@@ -17,6 +22,12 @@ export default function DeskTopAuthHeader() {
 
   const profieTabHandler = () => {
     dispatch(tabHandler({ tabName: "profile" }));
+  };
+
+  const logoutHandler = () => {
+    clearFromLocalStorage("user");
+    dispatch(removeProfileInfo());
+    navigate("/auth/login");
   };
 
   return (
@@ -57,13 +68,18 @@ export default function DeskTopAuthHeader() {
                 </ul>
               </div>
 
-              <div>
+              <div className="flex flex-wrap items-center gap-4">
                 <Link
                   to={`${window.location.origin}/link/${user?.data?._id}`}
                   target="_blank"
                   className="bg-[#EFECFE] px-[3vh] py-[1vh] font-semibold rounded-lg text-[#633BFB] border border-[#633BFB] cursor-pointer transition-all hover:text-black hover:border-black">
                   Preview
                 </Link>
+                <div
+                  onClick={logoutHandler}
+                  className="bg-[#633BFB] text-white px-[3vh] py-[1vh] font-semibold border border-[#633BFB] cursor-pointer rounded-lg transition-all hover:bg-[#EFECFE] hover:text-[#633BFB]">
+                  Logout
+                </div>
               </div>
             </>
           )}

@@ -21,8 +21,13 @@ export const profileSlice = createSlice({
         state.email = action.payload.email;
       }
     },
+    removeProfileInfo: (state) => {
+      state.profileImageUrl = null;
+      state.name = null;
+      state.email = null;
+    },
   },
 });
 
-export const { addProfileInfo } = profileSlice.actions;
+export const { addProfileInfo, removeProfileInfo } = profileSlice.actions;
 export default profileSlice.reducer;
