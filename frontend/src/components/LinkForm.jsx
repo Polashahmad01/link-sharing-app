@@ -8,6 +8,7 @@ import { useNotification } from "../hooks/useNotification";
 import { getCurrentUserMutation } from "../services/auth.service";
 import { saveLinkMutation, deleteLinkMutation } from "../services/link.service";
 import { addLink, removeLink, addFromDataBase } from "../store/slice/linkSlice";
+import { addProfileInfo } from "../store/slice/profileSlice";
 import { getFromLocalStorage } from "../utlis/localStorage";
 import { formDataFormatter } from "../utlis/dataFormatter";
 
@@ -46,6 +47,13 @@ export default function LinkForm() {
   useEffect(() => {
     if (currentUserData) {
       dispatch(addFromDataBase({ items: currentUserData.data.links }));
+      dispatch(
+        addProfileInfo({
+          imageUrl: currentUserData.data.profilePicture,
+          name: `${currentUserData.data.firstName} ${currentUserData.data.lastName}`,
+          email: currentUserData.data.email,
+        })
+      );
     }
   }, [currentUserData, dispatch]);
 

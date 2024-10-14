@@ -27,7 +27,7 @@ export default function LinkSharingPage() {
   return (
     <div className="-mt-32 flex justify-center items-center">
       {!data && isPending && (
-        <div className="py-2.5 px-5 me-2 text-sm font-medium text-black font-semibold bg-white rounded-lg border inline-flex items-center">
+        <div className="py-2.5 px-5 me-2 text-sm text-black font-semibold bg-white rounded-lg border inline-flex items-center">
           <svg
             aria-hidden="true"
             role="status"

@@ -16,7 +16,7 @@ export default function ProfileInfo({ profileData }) {
 
       <div className="flex flex-col flex-wrap gap-2 justify-center items-center">
         {profileData.name && (
-          <p className="font-semibold text-sm opacity-80">{profileData.name}</p>
+          <p className="font-semibold text-xl opacity-80">{profileData.name}</p>
         )}
         {!profileData.name && (
           <div className="font-semibold rounded-lg py-[2px] text-sm bg-[#FAFAFA] w-full">
