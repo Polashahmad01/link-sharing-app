@@ -76,7 +76,7 @@ export default function LinkPreview({ cardData }) {
               } ${
                 link.platformName.name === "Instagram" &&
                 "bg-[#5b51d8] text-white"
-              } border borer-black flex flex-wrap items-center justify-between p-3 rounded-lg cursor-pointer transition-all hover:opacity-90`}>
+              } border flex flex-wrap items-center justify-between p-3 rounded-lg cursor-pointer transition-all hover:opacity-90`}>
               <div className="flex flex-wrap items-center gap-4">
                 {link.platformName.name === "Facebook" && <FaFacebook />}
                 {link.platformName.name === "Github" && <FaGithub />}

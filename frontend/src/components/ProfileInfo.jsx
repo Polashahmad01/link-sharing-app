@@ -10,7 +10,7 @@ export default function ProfileInfo({ profileData }) {
           />
         )}
         {!profileData.profileImageUrl && (
-          <div className="w-full h-full rounded-full bg-white" />
+          <div className="w-full h-full rounded-full bg-[#FAFAFA]" />
         )}
       </div>
 
@@ -19,7 +19,7 @@ export default function ProfileInfo({ profileData }) {
           <p className="font-semibold text-sm opacity-80">{profileData.name}</p>
         )}
         {!profileData.name && (
-          <div className="font-semibold rounded-lg py-[2px] text-sm bg-white w-full">
+          <div className="font-semibold rounded-lg py-[2px] text-sm bg-[#FAFAFA] w-full">
             <span className="opacity-0">Name</span>
           </div>
         )}
@@ -32,7 +32,7 @@ export default function ProfileInfo({ profileData }) {
           </div>
         )}
         {!profileData.email && (
-          <div className="font-semibold rounded-lg py-[2px] text-sm bg-white w-full">
+          <div className="font-semibold rounded-lg py-[2px] text-sm bg-[#FAFAFA] w-full">
             <span className="opacity-0">Email</span>
           </div>
         )}
