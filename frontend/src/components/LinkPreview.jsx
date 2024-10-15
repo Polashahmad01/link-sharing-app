@@ -10,7 +10,7 @@ import {
 
 export default function LinkPreview({ cardData }) {
   return (
-    <div className="flex flex-wrap flex-col gap-8 bg-white p-4 rounded-2xl shadow-2xl min-w-[250px] sm:min-w-[350px] sm:p-12">
+    <div className="flex flex-wrap flex-col gap-8 bg-white p-4 rounded-2xl sm:shadow-2xl min-w-[250px] sm:min-w-[350px] sm:p-12">
       {cardData && (
         <div className="flex flex-wrap flex-col gap-4">
           {cardData.profilePicture && (
