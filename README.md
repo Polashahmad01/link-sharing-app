@@ -67,5 +67,5 @@ A full-stack web application built using the MERN stack (MongoDB, Express, React
 ```markdown
 1. Open your browser and navigate to `http://localhost:5173/auth/login` for the frontend.
 2. The API server runs on `http://localhost:8000`.
-3. The deployed version of this application is live and accessible at https://polashahmad.com Explore the platform to manage and share your social media links effortlessly.
+3. The deployed version of this application is live and accessible at https://polashahmad.com. Explore the platform to manage and share your social media links effortlessly.
 ```
