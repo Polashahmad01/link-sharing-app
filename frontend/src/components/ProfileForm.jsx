@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { IoImageOutline } from "react-icons/io5";
 import { useMutation } from "@tanstack/react-query";
 import { useNotification } from "../hooks/useNotification";
 import { profileSchemaValidator } from "../utlis/schemaValidator";
@@ -109,18 +110,20 @@ export default function ProfileForm() {
   return (
     <form className="p-8" onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <h2 className="text-3xl font-semibold mb-4">Profile Details</h2>
+        <h2 className="text-2xl lg:text-3xl font-semibold mb-4">
+          Profile Details
+        </h2>
         <p className="mb-6 text-[#6E6E6E] opacity-90">
           Add your profile to create a professional touch to your profile
         </p>
       </div>
 
       <div className="grid grid-cols-1 gap-6">
-        <div className="flex items-center bg-[#FAFAFA] p-4 rounded-lg">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-0 bg-[#FAFAFA] p-4 rounded-lg">
           <div className="basis-4/12">
             <p className="text-[#6E6E6E] opacity-90">Profile picture</p>
           </div>
-          <div className="basis-8/12 w-full flex items-center justify-between gap-8">
+          <div className="basis-8/12 w-full flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
             <div className="flex-1">
               <div className="flex items-center justify-center w-full">
                 {previewImage ? (
@@ -142,20 +145,9 @@ export default function ProfileForm() {
                     <label
                       htmlFor="file-upload"
                       className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                      <svg
-                        className="w-10 h-10 mb-3 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M7 16V6a2 2 0 012-2h6a2 2 0 012 2v10m4 0v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2m4 0h10"></path>
-                      </svg>
-                      <p className="mb-2 text-sm text-gray-500">
-                        <span className="font-semibold">Click to upload</span>
+                      <IoImageOutline size="30px" />
+                      <p className="my-1 text-sm text-gray-500">
+                        <span className="font-semibold">+ Upload Image</span>
                       </p>
                       <input
                         id="file-upload"
@@ -184,7 +176,7 @@ export default function ProfileForm() {
         </div>
 
         <div className="bg-[#FAFAFA] p-4 rounded-lg flex flex-wrap flex-col gap-2">
-          <div className="flex flex-wrap items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center">
             <label
               htmlFor="firstName"
               className="basis-4/12 text-[#6E6E6E] opacity-90">
@@ -203,7 +195,7 @@ export default function ProfileForm() {
               )}
             </div>
           </div>
-          <div className="flex flex-wrap items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center">
             <label
               htmlFor="lastName"
               className="basis-4/12 text-[#6E6E6E] opacity-90">
@@ -222,7 +214,7 @@ export default function ProfileForm() {
               )}
             </div>
           </div>
-          <div className="flex flex-wrap items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center">
             <label
               htmlFor="email"
               className="basis-4/12 text-[#6E6E6E] opacity-90">
@@ -251,7 +243,7 @@ export default function ProfileForm() {
           disabled={isPending || isLoading}
           className={`${
             (isLoading || isLoading) && "cursor-not-allowed"
-          } bg-[#633BFB] px-[3vh] py-[1vh] rounded-lg text-white border border-[#633BFB] cursor-pointer transition-all hover:text-[#633BFB] hover:border-[#633BFB] hover:bg-[#EFECFE]`}>
+          } bg-[#633BFB] px-[3vh] py-[1vh] rounded-lg text-white border border-[#633BFB] cursor-pointer w-full sm:w-min transition-all hover:text-[#633BFB] hover:border-[#633BFB] hover:bg-[#EFECFE]`}>
           {isPending || isLoading ? "Saving" : "Save"}
         </button>
       </div>
