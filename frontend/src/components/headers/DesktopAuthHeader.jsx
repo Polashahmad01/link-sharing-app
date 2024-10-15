@@ -54,7 +54,7 @@ export default function DeskTopAuthHeader() {
                       className={`${
                         tabs.activeTab === "link" &&
                         "bg-[#EFECFE] text-[#633BFB]"
-                      } flex items-center gap-2 px-[3vh] py-[1vh] rounded-lg cursor-pointer transition-all hover:text-black`}>
+                      } flex items-center gap-2 px-[2vh] py-[1vh] rounded-lg cursor-pointer transition-all hover:text-black`}>
                       <HiOutlineExternalLink size="20px" />
                       <span className="">Links</span>
                     </div>
@@ -65,7 +65,7 @@ export default function DeskTopAuthHeader() {
                       className={`${
                         tabs.activeTab === "profile" &&
                         " bg-[#EFECFE] text-[#633BFB]"
-                      } flex items-center gap-2 px-[3vh] py-[1vh] rounded-lg cursor-pointer transition-all hover:text-black`}>
+                      } flex items-center gap-2 px-[2vh] py-[1vh] rounded-lg cursor-pointer transition-all hover:text-black`}>
                       <CgProfile />
                       <span className="">Profile Details</span>
                     </div>
@@ -77,12 +77,12 @@ export default function DeskTopAuthHeader() {
                 <Link
                   to={`${window.location.origin}/link/${user?.data?._id}`}
                   target="_blank"
-                  className="bg-[#EFECFE] px-[3vh] py-[1vh] font-semibold rounded-lg text-[#633BFB] border border-[#633BFB] cursor-pointer transition-all hover:text-black hover:border-black">
+                  className="bg-[#EFECFE] px-[2vh] py-[1vh] font-semibold rounded-lg text-[#633BFB] border border-[#633BFB] cursor-pointer transition-all hover:text-black hover:border-black">
                   Preview
                 </Link>
                 <div
                   onClick={logoutHandler}
-                  className="bg-[#633BFB] text-white px-[3vh] py-[1vh] font-semibold border border-[#633BFB] cursor-pointer rounded-lg transition-all hover:bg-[#EFECFE] hover:text-[#633BFB]">
+                  className="bg-[#633BFB] text-white px-[2vh] py-[1vh] border border-[#633BFB] cursor-pointer rounded-lg transition-all hover:bg-[#EFECFE] hover:text-[#633BFB]">
                   Logout
                 </div>
               </div>
