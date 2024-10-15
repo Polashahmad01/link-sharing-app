@@ -7,12 +7,12 @@ export default function HomePage() {
   const tabs = useSelector((state) => state.tab);
 
   return (
-    <section className="container mx-auto px-4 sm:px-0">
-      <div className="flex gap-8">
-        <div className="flex-none w-[30vw] bg-white rounded-lg">
+    <section className="container mx-auto px-4 md:px-0">
+      <div className="flex flex-col gap-8 lg:flex-row">
+        <div className="flex-none order-2 bg-white rounded-lg py-10 lg:w-[30vw] lg:order-1">
           <LinkShowCase />
         </div>
-        <div className="flex-initial w-full bg-white rounded-lg">
+        <div className="flex-initial w-full bg-white rounded-lg order-1 lg:order-2">
           {tabs.activeTab === "link" && <LinkForm />}
           {tabs.activeTab === "profile" && <ProfileForm />}
         </div>
