@@ -174,7 +174,9 @@ export default function LinkForm() {
   return (
     <form className="p-8" onSubmit={subFormHandler}>
       <div className="mb-4">
-        <h2 className="text-3xl font-semibold mb-4">Customize your links</h2>
+        <h2 className="text-2xl lg:text-3xl font-semibold mb-4">
+          Customize your links
+        </h2>
         <p className="mb-6 text-[#6E6E6E] opacity-90">
           Add/edit/remove links below and then share all your profiles with
           world!
@@ -216,7 +218,7 @@ export default function LinkForm() {
         <button
           type="submit"
           disabled={isLoading || isPending}
-          className="bg-[#633BFB] px-[3vh] py-[1vh] rounded-lg text-white border border-[#633BFB] cursor-pointer transition-all hover:text-[#633BFB] hover:border-[#633BFB] hover:bg-[#EFECFE]">
+          className="bg-[#633BFB] px-[3vh] py-[1vh] rounded-lg text-white border border-[#633BFB] cursor-pointer w-full sm:w-min transition-all hover:text-[#633BFB] hover:border-[#633BFB] hover:bg-[#EFECFE]">
           {isPending || isLoading ? "Saving" : "Save"}
         </button>
       </div>

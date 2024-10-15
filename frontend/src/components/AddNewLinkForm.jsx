@@ -90,7 +90,10 @@ export default function AddNewLinkForm({
         <div className="text-sm flex flex-wrap items-center justify-between">
           <div className="flex flex-wrap items-center gap-1">
             <LuEqual />
-            <span className="font-semibold">
+            <span className="block md:hidden font-semibold">
+              Link #{linkItem && linkItem.id.split("-")[1]}
+            </span>
+            <span className="hidden md:block font-semibold">
               Link #{linkItem && linkItem.id}
             </span>
           </div>
