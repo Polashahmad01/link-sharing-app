@@ -14,7 +14,7 @@ export default function PreviewHeader() {
   };
 
   const handleBackToEditor = () => {
-    navigate("/app");
+    navigate("/");
   };
 
   return (

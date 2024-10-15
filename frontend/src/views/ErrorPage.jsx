@@ -52,7 +52,7 @@ export default function ErrorPage() {
               <Link onClick={goBackHandler}>Go back</Link>
             </button>
             <button className="w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 border rounded-lg shrink-0 sm:w-auto hover:bg-blue-600">
-              <Link to="/app">Home Page</Link>
+              <Link to="/">Home Page</Link>
             </button>
           </div>
         </div>

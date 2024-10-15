@@ -10,7 +10,7 @@ import LinkSharingPage from "./views/LinkSharingPage";
 
 const router = createBrowserRouter([
   {
-    path: "/app",
+    path: "/",
     element: <ProtectedRoute />,
     errorElement: <ErrorPage />,
     children: [

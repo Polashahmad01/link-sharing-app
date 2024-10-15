@@ -46,7 +46,7 @@ export default function MobileAuthHeader() {
   return (
     <nav className="p-4">
       <div className="bg-white flex items-center justify-between rounded-lg p-4">
-        <Link to="/app" className="flex items-center gap-1">
+        <Link to="/" className="flex items-center gap-1">
           <FaStaylinked size="20px" color="#2D68FF" />
           <div className="font-semibold text-[#505050] text-xl">devLinks</div>
         </Link>

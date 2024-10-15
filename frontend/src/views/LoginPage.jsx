@@ -40,7 +40,7 @@ export default function LoginPage() {
       dispatch(login({ user: data }));
       dispatch(tabHandler({ tabName: "profile" }));
       addToLocalStorage("user", data);
-      navigate("/app");
+      navigate("/");
     }
 
     if (data && data.success === false && data.statusCode === 401) {

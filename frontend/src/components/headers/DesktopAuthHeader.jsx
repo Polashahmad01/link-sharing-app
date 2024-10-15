@@ -39,7 +39,7 @@ export default function DeskTopAuthHeader() {
     <nav className="container mx-auto">
       <div className="py-8">
         <div className="bg-white flex items-center justify-between px-8 py-4 rounded-lg">
-          <Link to="/app" className="flex items-center gap-1">
+          <Link to="/" className="flex items-center gap-1">
             <FaStaylinked size="25px" color="#2D68FF" />
             <div className="font-semibold text-[#505050] text-xl">devLinks</div>
           </Link>
