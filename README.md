@@ -15,15 +15,19 @@ A full-stack web application built using the MERN stack (MongoDB, Express, React
    ```bash
    git clone https://github.com/Polashahmad01/link-sharing-app
    ```
-2. Navigate to the backend folder:
+2. Navigate to the link-sharing-app folder:
+   ```bash
+   cd link-sharing-app
+   ```
+3. Navigate to the backend folder:
    ```bash
    cd backend
    ```
-3. Install dependencies:
+4. Install dependencies:
    ```bash
    npm install
    ```
-4. Create a `.env` file and add the required environment variables:
+5. Create a `.env` file and add the required environment variables:
 
    ```bash
    NODE_ENV=development
@@ -33,22 +37,26 @@ A full-stack web application built using the MERN stack (MongoDB, Express, React
    MONGO_DATABASE_NAME=link-sharing-app
    ```
 
-5. Start the backend server:
+6. Start the backend server:
    ```bash
    npm run start:dev
    ```
 
 ### Frontend Setup
 
-1. Navigate to the frontend folder:
+1. Navigate to the link-sharing-app folder:
+   ```bash
+   cd link-sharing-app
+   ```
+2. Navigate to the frontend folder:
    ```bash
    cd frontend
    ```
-2. Install dependencies:
+3. Install dependencies:
    ```bash
    npm install
    ```
-3. Create a `.env.local` file and add the required environment variables:
+4. Create a `.env.local` file and add the required environment variables:
 
    ```bash
    VITE_APP_BASE_API_URL=http://localhost:8000
@@ -57,7 +65,7 @@ A full-stack web application built using the MERN stack (MongoDB, Express, React
    VITE_APP_IMAGEKIT_URL_END_POINT=https://ik.imagekit.io/linksharingapp
    ```
 
-4. Start the development server:
+5. Start the development server:
    ```bash
    npm run dev
    ```
