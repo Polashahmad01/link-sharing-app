@@ -8,7 +8,7 @@ export default function LinkShowCase() {
 
   return (
     <div className="flex justify-center items-center h-full">
-      <div className="border border-[#9a9a9a] w-[300px] h-[600px] rounded-[50px] px-2 py-2">
+      <div className="border border-[#9a9a9a] w-[300px] h-[600px] rounded-[50px] px-2 py-2 mx-2">
         <div className="relative px-8 py-8 border border-[#9a9a9a] rounded-[40px] h-full m-auto">
           <div className="absolute -top-[6px] left-1/2 right-1/2 transform -translate-x-1/2 h-[18px] w-[18px] rounded-full border-[6px] border-[#b5b5b5]"></div>
           <ProfileInfo profileData={profileInfo} />
