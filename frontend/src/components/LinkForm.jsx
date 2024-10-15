@@ -71,10 +71,9 @@ export default function LinkForm() {
     const currentLink = linksData.items.find((item) => item.id === linkId);
 
     if (currentLink.platformName && currentLink.id) {
-      console.log("old Link with full data");
       mutateDeleteLink({ _id: user.data._id, linkId });
+      dispatch(removeLink({ itemId: linkId }));
     } else {
-      console.log("new link with only id");
       dispatch(removeLink({ itemId: linkId }));
     }
 
@@ -132,6 +131,7 @@ export default function LinkForm() {
   useEffect(() => {
     if (data && data.success && data.statusCode === 200) {
       notifySuccess(data.message);
+      // save links to reduxt after form submit save button
       dispatch(addFromDataBase({ items: data.data.links }));
     }
 
