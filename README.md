@@ -30,11 +30,11 @@ A full-stack web application built using the MERN stack (MongoDB, Express, React
 5. Create a `.env` file and add the required environment variables:
 
    ```bash
-   NODE_ENV=development
-   PORT=8000
-   MONGO_USER=workistiakahmadpolash
-   MONGO_PASSWORD=LW0aVm3rhn9li8zu
-   MONGO_DATABASE_NAME=link-sharing-app
+   NODE_ENV=
+   PORT=
+   MONGO_USER=
+   MONGO_PASSWORD=
+   MONGO_DATABASE_NAME=
    ```
 
 6. Start the backend server:
@@ -59,10 +59,10 @@ A full-stack web application built using the MERN stack (MongoDB, Express, React
 4. Create a `.env.local` file and add the required environment variables:
 
    ```bash
-   VITE_APP_BASE_API_URL=http://localhost:8000
-   VITE_APP_IMAGEKIT_PUBLIC_KEY=public_L8cHIeHMqg09cgnUL4zk0Ef3n9Q=
-   VITE_APP_IMAGEKIT_PRIVATE_KEY=private_EoiA1YxeWn0qf6OmSOI9MyM0PDo=
-   VITE_APP_IMAGEKIT_URL_END_POINT=https://ik.imagekit.io/linksharingapp
+   VITE_APP_BASE_API_URL=
+   VITE_APP_IMAGEKIT_PUBLIC_KEY=
+   VITE_APP_IMAGEKIT_PRIVATE_KEY=
+   VITE_APP_IMAGEKIT_URL_END_POINT=
    ```
 
 5. Start the development server:
