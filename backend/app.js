@@ -51,18 +51,22 @@ app.use((error, req, res, next) => {
     .json({ success: false, statusCode: status, message: message, data: data });
 });
 
-// Port
-const PORT = process.env.PORT || 8001;
+// Only listen on a port in development
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 8001;
+  const server = app.listen(PORT, () => {
+    console.log(
+      `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow
+        .bold
+    );
+  });
 
-// Server
-const server = app.listen(PORT, () => {
-  console.log(
-    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
-  );
-});
+  // Handling unhandled rejections
+  process.on("unhandledRejection", (err) => {
+    console.log(`An error occurred: ${err.message}`);
+    server.close(() => process.exit(1));
+  });
+}
 
-// Handling Error
-process.on("unhandledRejection", (err) => {
-  console.log(`An error occurred: ${err.message}`);
-  server.close(() => process.exit(1));
-});
+// Export the app for Vercel
+export default app;
